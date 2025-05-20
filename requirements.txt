@@ -1,4 +1,7 @@
 discord.py==2.3.2
+yt-dlp
+lyricsgenius
 aiohttp
 beautifulsoup4
 lxml
+requests

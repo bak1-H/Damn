@@ -15,9 +15,8 @@ import puntos
 from rank_system import update_user_rank, get_user_rank
 import rank_system
 
-GENIUS_TOKEN = os.getenv("kPiumkph-WUsL-By7GgoP3CMbpihdOjOJrKc-KAdk2fthoq1mLIqHas3SWu3xT8f")
-genius = lyricsgenius.Genius("kPiumkph-WUsL-By7GgoP3CMbpihdOjOJrKc-KAdk2fthoq1mLIqHas3SWu3xT8f")
-TOKEN = os.getenv("MTM3NDI5NDI5MzM4ODQ2MDEwNA.Gf3wt0.GTVWDGzfKaRkc-Jui7O4K534Y09Fxy53t_EqzE")
+GENIUS_TOKEN=os.getenv("kPiumkph-WUsL-By7GgoP3CMbpihdOjOJrKc-KAdk2fthoq1mLIqHas3SWu3xT8f")
+TOKEN=os.getenv("MTM3NDI5NDI5MzM4ODQ2MDEwNA.Gf3wt0.GTVWDGzfKaRkc-Jui7O4K534Y09Fxy53t_EqzE")
 is_looping = False
 current_info = None
 

@@ -54,25 +54,21 @@ def create_source(info):
 async def play_next(ctx):
     global is_playing, voice_client, is_looping, current_song_info, current_song_title
 
-    if is_looping and current_song_info:
-        source = create_source(current_song_info)
-        voice_client.play(source, after=lambda e: asyncio.run_coroutine_threadsafe(play_next(ctx), bot.loop))
-        await ctx.send(f"🔁 Reproduciendo nuevamente: {current_song_info['title']}")
-        current_song_title = current_song_info['title']  # <-- Agrega esto
-        return
-
     if len(queue) == 0:
         is_playing = False
-        await ctx.send("")
-        current_song_title = None  # <-- Limpia el título si termina la cola
+        current_song_title = None
+        await ctx.send("🐒 La cola ha terminado.")
         return
 
-    is_playing = True
     current_song_info = queue.pop(0)
-    source = create_source(current_song_info)
-    voice_client.play(source, after=lambda e: asyncio.run_coroutine_threadsafe(play_next(ctx), bot.loop))
-    await ctx.send(f"🎵 Reproduciendo: {current_song_info['title']}")
-    current_song_title = current_song_info['title']  
+    try:
+        source = create_source(current_song_info)
+        voice_client.play(source, after=lambda e: asyncio.run_coroutine_threadsafe(play_next(ctx), bot.loop))
+        await ctx.send(f"🎵 Reproduciendo: {current_song_info['title']}")
+        current_song_title = current_song_info['title']
+    except Exception as e:
+        await ctx.send(f"🐒 Error al reproducir: {e}")
+        await play_next(ctx)
 
 
 @bot.command()

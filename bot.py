@@ -31,6 +31,7 @@ ydl_opts = {
     'noplaylist': True,
     'quiet': True,
     'no_warnings': True,
+    'cookiefile': 'cookies.txt',
 }
 
 ydl = YoutubeDL(ydl_opts)
@@ -287,16 +288,6 @@ async def on_voice_state_update(member, before, after):
                 await member.send(f"🎮 ¡Has recibido {BONUS_POINTS} puntos por entrar a {BONUS_VOICE_CHANNEL} hoy!")
             except Exception:
                 pass
-
-@bot.command()
-async def testnick(ctx):
-    try:
-        await ctx.author.edit(nick="Test Nick")
-        await ctx.send("¡Pude cambiar tu apodo!")
-    except discord.Forbidden:
-        await ctx.send("No tengo permisos para cambiar tu apodo.")
-    except Exception as e:
-        await ctx.send(f"Error: {e}")
     
 @bot.event
 async def on_member_join(member):

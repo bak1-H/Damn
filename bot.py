@@ -51,7 +51,17 @@ def create_source(info):
     return discord.FFmpegPCMAudio(url, before_options='-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5')
 
 async def play_next(ctx):
-    global is_playing, voice_client, is_looping, current_song_info, current_song_title
+    global is_playing, current_song_info, current_song_title, is_looping
+
+    voice_client = ctx.voice_client
+
+    if is_looping and current_song_info:
+        # Repite la canción actual
+        source = create_source(current_song_info)
+        voice_client.play(source, after=lambda e: asyncio.run_coroutine_threadsafe(play_next(ctx), bot.loop))
+        await ctx.send(f"🔁 Reproduciendo nuevamente: {current_song_info['title']}")
+        current_song_title = current_song_info['title']
+        return
 
     if len(queue) == 0:
         is_playing = False
@@ -68,19 +78,19 @@ async def play_next(ctx):
     except Exception as e:
         await ctx.send(f"🐒 Error al reproducir: {e}")
         await play_next(ctx)
-        
+
 @bot.command()
 async def play(ctx, url: str):
-    global voice_client, is_playing
+    global is_playing
 
     if ctx.author.voice is None:
         await ctx.send("🐒Debes estar en un canal para poner un temita.")
         return
 
-    if voice_client is None or not voice_client.is_connected():
-        voice_client = await ctx.author.voice.channel.connect()
-    elif voice_client.channel != ctx.author.voice.channel:
-        await voice_client.move_to(ctx.author.voice.channel)
+    if ctx.voice_client is None or not ctx.voice_client.is_connected():
+        await ctx.author.voice.channel.connect()
+    elif ctx.voice_client.channel != ctx.author.voice.channel:
+        await ctx.voice_client.move_to(ctx.author.voice.channel)
 
     try:
         info = await extract_info(url)
@@ -94,29 +104,29 @@ async def play(ctx, url: str):
     if not is_playing:
         await play_next(ctx)
 
+
 @bot.command()
 async def skip(ctx):
-    global voice_client, is_playing
-
-    if voice_client is None or not voice_client.is_playing():
+    if ctx.voice_client is None or not ctx.voice_client.is_playing():
         await ctx.send("🐒No hay tema activo!.")
         return
 
-    voice_client.stop()
+    ctx.voice_client.stop()
     await ctx.send("🐒Se saltaron el temita.")
 
 @bot.command()
 async def stop(ctx):
-    global voice_client, is_playing, queue
+    global is_playing, queue, current_song_info, current_song_title
 
-    if voice_client is None:
+    if ctx.voice_client is None:
         await ctx.send("🐒No estoy conectado a ni una weá.")
         return
 
     queue.clear()
     is_playing = False
-    await voice_client.disconnect()
-    voice_client = None
+    current_song_info = None
+    current_song_title = None
+    await ctx.voice_client.disconnect()
     await ctx.send("🐒Reproducción detenida, CHAO.")
 
 

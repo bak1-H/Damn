@@ -302,6 +302,4 @@ async def on_member_join(member):
     except discord.Forbidden:
         pass  # No hay permisos para cambiar el nick
 
-
-
 bot.run(TOKEN)

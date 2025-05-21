@@ -1,2 +1,2 @@
 [phases.setup]
-nixPkgs = ["ffmpeg", "libopus", "opusTools", "python311", "gcc"]
+nixPkgs = ["ffmpeg", "libopus", "opusTools", "pkg-config", "python311", "gcc"]

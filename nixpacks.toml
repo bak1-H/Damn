@@ -1,2 +1,2 @@
-[phases.install]
-aptPkgs = ["ffmpeg", "libopus-dev", "pkg-config", "gcc"]
+[phases.setup]
+nixPkgs = ["ffmpeg", "libopus", "pkg-config", "gcc"]

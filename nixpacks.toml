@@ -1,2 +1,5 @@
 [phases.setup]
-nixPkgs = ["ffmpeg", "libopus", "opusTools", "pkg-config", "python311", "gcc"]
+nixpkgsArchive = "a33a6b833b27bd74ff26d3789933d44c97cbe96d"  # Versión estable
+
+[phases.install]
+aptPkgs = ["ffmpeg", "libopus-dev", "pkg-config", "gcc"]

@@ -68,11 +68,7 @@ async def play_next(ctx):
     except Exception as e:
         await ctx.send(f"🐒 Error al reproducir: {e}")
         await play_next(ctx)
-<<<<<<< HEAD
-=======
-
->>>>>>> d4b520be6e977106dc769b2321c4a786f8b611b0
-
+        
 @bot.command()
 async def play(ctx, url: str):
     global voice_client, is_playing

@@ -27,7 +27,7 @@ intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 ydl_opts = {
-    'format': 'bestaudio/best',
+    'format': 'bestaudio/best/bestvideo+bestaudio',
     'noplaylist': True,
     'quiet': True,
     'no_warnings': True,

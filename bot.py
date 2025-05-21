@@ -50,19 +50,21 @@ def create_source(info):
     url = info['url']
     return discord.FFmpegPCMAudio(url, before_options='-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5')
 
+    
 async def play_next(ctx):
-    global is_playing, voice_client, is_looping, current_song_info
+    global is_playing, voice_client, is_looping, current_song_info, current_song_title
 
     if is_looping and current_song_info:
-        # Reproducir la misma canción de nuevo
         source = create_source(current_song_info)
         voice_client.play(source, after=lambda e: asyncio.run_coroutine_threadsafe(play_next(ctx), bot.loop))
         await ctx.send(f"🔁 Reproduciendo nuevamente: {current_song_info['title']}")
+        current_song_title = current_song_info['title']  # <-- Agrega esto
         return
 
     if len(queue) == 0:
         is_playing = False
         await ctx.send("🐒 La cola ha terminado, cotito.")
+        current_song_title = None  # <-- Limpia el título si termina la cola
         return
 
     is_playing = True
@@ -70,7 +72,7 @@ async def play_next(ctx):
     source = create_source(current_song_info)
     voice_client.play(source, after=lambda e: asyncio.run_coroutine_threadsafe(play_next(ctx), bot.loop))
     await ctx.send(f"🎵 Reproduciendo: {current_song_info['title']}")
-
+    current_song_title = current_song_info['title']  
 
 
 @bot.command()

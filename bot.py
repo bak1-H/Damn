@@ -63,7 +63,7 @@ async def play_next(ctx):
 
     if len(queue) == 0:
         is_playing = False
-        await ctx.send("🐒 La cola ha terminado, cotito.")
+        await ctx.send("")
         current_song_title = None  # <-- Limpia el título si termina la cola
         return
 
@@ -191,10 +191,10 @@ async def lyrics(ctx):
         await ctx.send("🐒 No pude obtener la letra de la canción.")
         return
 
-    # Dividir si es demasiado larga
     chunks = [lyrics[i:i + 2000] for i in range(0, len(lyrics), 2000)]
+    await ctx.send(f"LETRA DE: {current_song_title}")
     for chunk in chunks:
-        await ctx.send(f"LETRA DEL TEMITA")
+        await ctx.send(chunk)
 
 @bot.command(name='clear')
 @commands.has_permissions(manage_messages=True)

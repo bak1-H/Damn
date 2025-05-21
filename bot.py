@@ -15,7 +15,7 @@ import puntos
 from rank_system import update_user_rank, get_user_rank
 import rank_system
 
-GENIUS_TOKEN=os.getenv("GENIUS_TOKEN")
+CLIENT_ACCESS_TOKEN=os.getenv("GENIUS_TOKEN")
 TOKEN=os.getenv("TOKEN")
 is_looping = False
 current_info = None
@@ -135,7 +135,6 @@ async def loop(ctx):
     else:
         await ctx.send("🔁 Bucle del tema: ❌.")
         
-CLIENT_ACCESS_TOKEN = "kPiumkph-WUsL-By7GgoP3CMbpihdOjOJrKc-KAdk2fthoq1mLIqHas3SWu3xT8f"
 current_song_title = None
 
 
